@@ -19,7 +19,7 @@ def main():
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     clock = pygame.time.Clock()
     screen.fill("white")
-    gs = ChessEngine.GameState
+    gs = ChessEngine.GameState()
     load_image()
     running = True
     sq_selected = ()
@@ -39,7 +39,7 @@ def main():
                     sq_selected = (row, col)
                     player_clicks.append(sq_selected)
                 if len(player_clicks) == 2:
-                    move = ChessEngine.Move.__int__(player_clicks[0], player_clicks[1], gs.board)
+                    move = ChessEngine.Move(player_clicks[0], player_clicks[1], gs.board)
                     print(move.get_chess_notation())
                     gs.make_move(move)
                     sq_selected = ()

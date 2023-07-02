@@ -1,14 +1,11 @@
-import self as self
-
-
 class GameState:
     def __init__(self):
         self.board = [
             ["bR", "bN", "bB", "bQ", "bK", "bB", "bN", "bR"],
-            ["bp", "bp", "bp", "bp", "bp", "bp", "bp", "bp"],
+            ["--", "bp", "bp", "bp", "bp", "bp", "bp", "bp"],
             ["--", "--", "--", "--", "--", "--", "--", "--"],
-            ["--", "wR", "--", "--", "--", "--", "--", "--"],
-            ["--", "wp", "--", "--", "--", "--", "--", "--"],
+            ["--", "wR", "--", "wR", "--", "wp", "bR", "--"],
+            ["--", "wp", "--", "--", "bR", "--", "--", "--"],
             ["--", "--", "--", "--", "--", "--", "--", "--"],
             ["--", "wp", "wp", "wp", "wp", "wp", "wp", "wp"],
             ["wR", "wN", "wB", "wQ", "wK", "wB", "wN", "wR"]
@@ -72,12 +69,81 @@ class GameState:
 
     def get_rook_moves(self, r, c, moves):
         if self.white_to_move:
-            for i in range(0, 7): # movement up and down on column
-                if i != r:
-                    if self.board[i][c] == "--":
-                        moves.append(Move((r, c), (i, c), self.board))
-                    if self.board[i][c][0] == 'b':
-                        moves.append(Move((r, c), (i, c), self.board))
+            for i in range(r + 1, 8):  # movement down on column
+                if self.board[i][c] == "--":
+                    moves.append(Move((r, c), (i, c), self.board))
+                if self.board[i][c][0] == 'w':
+                    moves.append(Move((r, c), (i-1, c), self.board))
+                    break
+                if self.board[i][c][0] == 'b':
+                    moves.append(Move((r, c), (i, c), self.board))
+                    break
+            for i in range(r - 1, -1,-1):  # movement up on column
+                if self.board[i][c] == "--":
+                    moves.append(Move((r, c), (i, c), self.board))
+                if self.board[i][c][0] == 'w':
+                    moves.append(Move((r, c), (i+1, c), self.board))
+                    break
+                if self.board[i][c][0] == 'b':
+                    moves.append(Move((r, c), (i, c), self.board))
+                    break
+            for i in range(c+1, 8):  # movement right on row
+                if self.board[r][i] == "--":
+                    moves.append(Move((r, c), (r, i), self.board))
+                if self.board[r][i][0] == 'w':
+                    moves.append(Move((r, c), (r, i-1), self.board))
+                    break
+                if self.board[r][i][0] == 'b':
+                    moves.append(Move((r, c), (r, i), self.board))
+                    break
+
+            for i in range(c-1, -1, -1): # movement left on row
+                if self.board[r][i] == "--":
+                    moves.append(Move((r, c), (r, i), self.board))
+                if self.board[r][i][0] == 'w':
+                    moves.append(Move((r, c), (r, i+1), self.board))
+                    break
+                if self.board[r][i][0] == 'b':
+                    moves.append(Move((r, c), (r, i), self.board))
+                    break
+        else:
+            for i in range(r + 1, 8):  # movement down on column
+                if self.board[i][c] == "--":
+                    moves.append(Move((r, c), (i, c), self.board))
+                if self.board[i][c][0] == 'b':
+                    moves.append(Move((r, c), (i-1, c), self.board))
+                    break
+                if self.board[i][c][0] == 'w':
+                    moves.append(Move((r, c), (i, c), self.board))
+                    break
+            for i in range(r - 1, -1,-1):  # movement up on column
+                if self.board[i][c] == "--":
+                    moves.append(Move((r, c), (i, c), self.board))
+                if self.board[i][c][0] == 'b':
+                    moves.append(Move((r, c), (i+1, c), self.board))
+                    break
+                if self.board[i][c][0] == 'w':
+                    moves.append(Move((r, c), (i, c), self.board))
+                    break
+            for i in range(c+1, 8):  # movement right on row
+                if self.board[r][i] == "--":
+                    moves.append(Move((r, c), (r, i), self.board))
+                if self.board[r][i][0] == 'b':
+                    moves.append(Move((r, c), (r, i-1), self.board))
+                    break
+                if self.board[r][i][0] == 'w':
+                    moves.append(Move((r, c), (r, i), self.board))
+                    break
+
+            for i in range(c-1, -1, -1): # movement left on row
+                if self.board[r][i] == "--":
+                    moves.append(Move((r, c), (r, i), self.board))
+                if self.board[r][i][0] == 'b':
+                    moves.append(Move((r, c), (r, i+1), self.board))
+                    break
+                if self.board[r][i][0] == 'w':
+                    moves.append(Move((r, c), (r, i), self.board))
+                    break
 
     def get_knight_moves(self, r, c, moves):
         pass
